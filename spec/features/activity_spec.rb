@@ -28,8 +28,22 @@ feature "setting the goals" do
 end
 
 feature "viewing goals" do
+
+  before(:each) do
+    sign_in_hillary
+  end
+
+  let!(:tommy) { FactoryGirl.create(:user) }
+  let!(:tommy_goal) { FactoryGirl.create(:activity, name: 'run for president', user_id: User.first.id) }
+  let!(:tommy_private_goal) { FactoryGirl.create(:activity, name: 'run for vice president', user_id: User.first.id, visibility: "private") }
+
   scenario "user can see all of their own goals"
-  scenario "no one else can see a user's private goals"
+
+
+  scenario "no one else can see a user's private goals" do
+    visit user_url(tommy)
+    expect(page).to_not have_content("run for vice president")
+  end
 end
 
 feature "completing the goals" do
