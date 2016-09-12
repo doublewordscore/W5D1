@@ -37,7 +37,15 @@ feature "viewing goals" do
   let!(:tommy_goal) { FactoryGirl.create(:activity, name: 'run for president', user_id: User.first.id) }
   let!(:tommy_private_goal) { FactoryGirl.create(:activity, name: 'run for vice president', user_id: User.first.id, visibility: "private") }
 
-  scenario "user can see all of their own goals"
+  let!(:hillary_private_goal) { FactoryGirl.create(:activity, name: 'beat tommy', user_id: User.find_by(username: "hillary").id, visibility: "private") }
+  let!(:hillary_public_goal) { FactoryGirl.create(:activity, name: 'beat tommy2', user_id: User.find_by(username: "hillary").id, visibility: "public") }
+
+
+  scenario "user can see all of their own goals" do
+    visit user_url(hillary)
+    expect(page).to have_content("beat tommy")
+    expect(page).to have_content("beat tommy2")
+  end
 
 
   scenario "no one else can see a user's private goals" do
