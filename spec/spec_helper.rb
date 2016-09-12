@@ -97,3 +97,24 @@ RSpec.configure do |config|
   Kernel.srand config.seed
 =end
 end
+
+def sign_in_hillary
+  hillary = FactoryGirl.create(:user, username: "hillary", password: "president")
+  visit(new_session_url)
+  fill_in('Username', with: hillary.username)
+  fill_in('Password', with: hillary.password)
+  click_button('Log In')
+end
+
+def create_hillary
+  visit(new_user_url)
+  fill_in('Username', with: "hillary")
+  fill_in('Password', with: "president")
+  click_button('Create User')
+end
+
+def sign_out_hillary
+  sign_in_hillary
+  visit(users_url)
+  click_button('Log Out')
+end

@@ -5,6 +5,8 @@ class User < ActiveRecord::Base
   validates :session_token, presence: true
   validates :password, length: { minimum: 6, allow_nil: true }
 
+  has_many :activities
+
   attr_accessor :password
 
   after_initialize :ensure_session_token
